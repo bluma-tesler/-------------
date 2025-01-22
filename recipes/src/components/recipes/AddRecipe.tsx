@@ -9,6 +9,7 @@ const AddRecipe = () => {
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const detailsRef = useRef<HTMLInputElement>(null);
+    const [bool, setBool] = useState<boolean | null>(true)
 
     const navigate = useNavigate();
     const [isTitleValid, setIsTitleValid] = useState(true);
@@ -17,7 +18,7 @@ const AddRecipe = () => {
     if (!user.email) {
         return <Navigate to="/error" />
     }
-    const handleRecipe = async (e: FormEvent<HTMLFormElement>) => {
+    const handleRecipe = async (e: FormEvent<HTMLFormElement>, isBool: boolean | null) => {
 
         e.preventDefault()
 
@@ -25,13 +26,13 @@ const AddRecipe = () => {
         const description = descriptionRef.current?.value
         const details = detailsRef.current?.value
 
- 
+
         setIsTitleValid(!!title)
         setIsDescriptionValid(!!description)
         setIsDetailsValid(!!details)
 
         if (!title || !description || !details) {
-            return 
+            return
         }
 
         try {
@@ -53,7 +54,9 @@ const AddRecipe = () => {
                 throw new Error(`fetch error ${response.status}`)
             }
             alert('המתכון נוסף בהצלחה')
-            navigate('/')
+            if (isBool === true) {
+                navigate('/')
+            }
         } catch (error) {
             console.error(error);
         } finally {
@@ -76,7 +79,7 @@ const AddRecipe = () => {
     return (
         <>
             <Card sx={{ maxWidth: 250 }}>
-                <form onSubmit={handleRecipe}>
+                <form onSubmit={(e) => handleRecipe(e, bool)}>
                     <TextField sx={{ margin: 3, marginBottom: 0 }}
                         id="outlined"
                         label="title"
@@ -108,9 +111,18 @@ const AddRecipe = () => {
                     <br />
                     <Button
                         sx={{ margin: 3 }}
-                        type="submit" variant="contained" color="success"> add recipe
+                        type="submit"
+                        variant="contained"
+                        color="success"
+                        onClick={() => setBool(true)}> הוספת מתכון
                     </Button>
-
+                    <Button
+                        sx={{ margin: 3 }}
+                        type="submit"
+                        variant="contained"
+                        color="success"
+                        onClick={() => setBool(false)}>  שמירה והוספת מתכון נוסף
+                    </Button>
                 </form>
             </Card>
         </>
