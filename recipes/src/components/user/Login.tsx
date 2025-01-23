@@ -3,6 +3,8 @@ import { UserContext } from "../../userReducer";
 import OpenModal from "./OpenModal";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 const Login = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { dispatch: userDispatch } = useContext(UserContext)
@@ -82,11 +84,11 @@ const Login = () => {
         <Button sx={{ margin: 1 }}
             variant="contained"
             color="success"
-            onClick={handleOpenLoginbutton}>Login</Button>
+            onClick={handleOpenLoginbutton}><LoginIcon sx={{marginRight:2}}/>  Login </Button>
         <Button sx={{ margin: 1 }}
             variant="contained"
             color="success"
-            onClick={handleOpenSignupbutton}>SignUp</Button>
+            onClick={handleOpenSignupbutton}><PersonAddIcon sx={{marginRight:2}}/>  SignUp</Button>
         <OpenModal open={isModalOpen} onClose={handleClose} onSubmit={handleLogin} emailRef={emailRef} passwordRef={passwordRef} />
     </>)
 }
